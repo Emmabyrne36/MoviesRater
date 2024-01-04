@@ -7,8 +7,3 @@ public class MovieResponse
     public required int YearOfRelease { get; init; }
     public required IEnumerable<string> Genres { get; init; } = Enumerable.Empty<string>();
 }
-
-public class MoviesResponse
-{
-    public IEnumerable<MovieResponse> Movies { get; init; }
-}
