@@ -17,7 +17,7 @@ public static class ContractMapping
         };
     }
 
-    public static MovieResponse MapToMovieResponse(this Movie movie)
+    public static MovieResponse MapToResponse(this Movie movie)
     {
         return new MovieResponse
         {
@@ -25,6 +25,14 @@ public static class ContractMapping
             Title = movie.Title,
             YearOfRelease = movie.YearOfRelease,
             Genres = movie.Genres.ToList()
+        };
+    }
+
+    public static MoviesResponse MapToResponse(this IEnumerable<Movie> movies)
+    {
+        return new MoviesResponse()
+        {
+            Items = movies.Select(MapToResponse)
         };
     }
 }
