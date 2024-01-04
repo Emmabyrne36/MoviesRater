@@ -27,7 +27,7 @@ public class MovieRepository : IMovieRepository
     public Task<bool> Update(Movie movie)
     {
         var movieIndex = _movies.FindIndex(x => x.Id == movie.Id);
-        if (movieIndex != -1) // not found
+        if (movieIndex == -1) // not found
         {
             return Task.FromResult(false);
         }
