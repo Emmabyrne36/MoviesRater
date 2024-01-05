@@ -4,5 +4,5 @@ namespace Movies.Application.Interfaces;
 
 public interface IDbConnectionFactory
 {
-    Task<IDbConnection> CreateConnection();
+    Task<IDbConnection> CreateConnection(CancellationToken token = default);
 }

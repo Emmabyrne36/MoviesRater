@@ -16,44 +16,44 @@ public class MovieService : IMovieService
     }
 
 
-    public async Task<bool> Create(Movie movie)
+    public async Task<bool> Create(Movie movie, CancellationToken token = default)
     {
-        await _movieValidator.ValidateAndThrowAsync(movie);
-        return await _movieRepository.Create(movie);
+        await _movieValidator.ValidateAndThrowAsync(movie, token);
+        return await _movieRepository.Create(movie, token);
     }
 
-    public Task<Movie?> GetById(Guid id)
+    public Task<Movie?> GetById(Guid id, CancellationToken token = default)
     {
-        return _movieRepository.GetById(id);
+        return _movieRepository.GetById(id, token);
     }
 
-    public Task<Movie?> GetBySlug(string slug)
+    public Task<Movie?> GetBySlug(string slug, CancellationToken token = default)
     {
-        return _movieRepository.GetBySlug(slug);
+        return _movieRepository.GetBySlug(slug, token);
     }
 
-    public Task<IEnumerable<Movie>> GetAll()
+    public Task<IEnumerable<Movie>> GetAll(CancellationToken token = default)
     {
-        return _movieRepository.GetAll();
+        return _movieRepository.GetAll(token);
     }
 
-    public async Task<Movie?> Update(Movie movie)
+    public async Task<Movie?> Update(Movie movie, CancellationToken token = default)
     {
-        await _movieValidator.ValidateAndThrowAsync(movie);
-        var movieExists = await _movieRepository.ExistsById(movie.Id);
+        await _movieValidator.ValidateAndThrowAsync(movie, token);
+        var movieExists = await _movieRepository.ExistsById(movie.Id, token);
 
         if (!movieExists)
         {
             return null;
         }
 
-        await _movieRepository.Update(movie);
+        await _movieRepository.Update(movie, token);
 
         return movie;
     }
 
-    public Task<bool> DeleteById(Guid id)
+    public Task<bool> DeleteById(Guid id, CancellationToken token = default)
     {
-        return _movieRepository.DeleteById(id);
+        return _movieRepository.DeleteById(id, token);
     }
 }
