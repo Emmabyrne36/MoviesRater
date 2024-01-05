@@ -10,4 +10,5 @@ public interface IMovieRepository
     Task<IEnumerable<Movie>> GetAll();
     Task<bool> Update(Movie movie);
     Task<bool> DeleteById(Guid id);
+    Task<bool> ExistsById(Guid id);
 }
