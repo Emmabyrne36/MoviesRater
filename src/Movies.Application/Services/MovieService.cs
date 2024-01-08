@@ -29,7 +29,7 @@ public class MovieService : IMovieService
 
     public Task<IEnumerable<Movie>> GetAll(Guid? userId = default, CancellationToken token = default)
     {
-        return _movieRepository.GetAll(token, userId);
+        return _movieRepository.GetAll(userId, token);
     }
 
 

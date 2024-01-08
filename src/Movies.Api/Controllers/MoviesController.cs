@@ -39,7 +39,7 @@ public class MoviesController : ControllerBase
     {
         var userId = HttpContext.GetUserId();
 
-        var movies = await _movieService.GetAll(token, userId);
+        var movies = await _movieService.GetAll(userId, token);
 
         return Ok(movies.MapToResponse());
     }

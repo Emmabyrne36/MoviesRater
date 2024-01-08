@@ -13,7 +13,10 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddSingleton<IRatingRepository, RatingRepository>();
         services.AddSingleton<IMovieRepository, MovieRepository>();
+        
+        services.AddSingleton<IRatingService, RatingService>();
         services.AddSingleton<IMovieService, MovieService>();
+        
         services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
         return services;
     }
