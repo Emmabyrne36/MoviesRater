@@ -11,4 +11,5 @@ public interface IMovieRepository
     Task<bool> Update(Movie movie, CancellationToken token = default);
     Task<bool> DeleteById(Guid id, CancellationToken token = default);
     Task<bool> ExistsById(Guid id, CancellationToken token = default);
+    Task<int> GetCount(string? title, int? yearOfRelease, CancellationToken token = default);
 }

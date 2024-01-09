@@ -10,4 +10,5 @@ public interface IMovieService
     Task<IEnumerable<Movie>> GetAll(GetAllMoviesOptions options, CancellationToken token = default);
     Task<Movie?> Update(Movie movie, Guid? userId = default, CancellationToken token = default);
     Task<bool> DeleteById(Guid id, CancellationToken token = default);
+    Task<int> GetCount(string? title, int? yearOfRelease, CancellationToken token = default);
 }

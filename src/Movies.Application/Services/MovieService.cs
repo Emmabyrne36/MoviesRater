@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Movies.Application.Interfaces;
 using Movies.Application.Models;
-using Movies.Application.Validators;
 
 namespace Movies.Application.Services;
 
@@ -72,5 +71,10 @@ public class MovieService : IMovieService
     public Task<bool> DeleteById(Guid id, CancellationToken token = default)
     {
         return _movieRepository.DeleteById(id, token);
+    }
+
+    public Task<int> GetCount(string? title, int? yearOfRelease, CancellationToken token = default)
+    {
+        return _movieRepository.GetCount(title, yearOfRelease, token);
     }
 }

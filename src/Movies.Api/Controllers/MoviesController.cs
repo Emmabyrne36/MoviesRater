@@ -42,8 +42,9 @@ public class MoviesController : ControllerBase
             .WithUser(userId);
 
         var movies = await _movieService.GetAll(options, token);
+        var moviesCount = await _movieService.GetCount(options.Title, options.YearOfRelease, token);
 
-        return Ok(movies.MapToResponse());
+        return Ok(movies.MapToResponse(request.Page, request.PageSize, moviesCount));
     }
 
     [Authorize(AuthConstants.TrustedMemberPolicyName)]
