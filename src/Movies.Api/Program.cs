@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Api.Auth;
+using Movies.Api.Enums;
 using Movies.Api.Health;
 using Movies.Api.Mapping;
 using Movies.Api.Swagger;
@@ -54,7 +55,18 @@ builder.Services.AddApiVersioning(x =>
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
 }).AddMvc().AddApiExplorer();
 
-builder.Services.AddResponseCaching();
+//builder.Services.AddResponseCaching();
+builder.Services.AddOutputCache(x =>
+{
+    x.AddBasePolicy(c => c.Cache());
+    x.AddPolicy("MovieCache", c =>
+        c.Cache()
+            .Expire(TimeSpan.FromMinutes(1))
+            .SetVaryByQuery(new[] { "title", "year", "sortBy", "page", "pageSize" })
+            .Tag(CacheTagsEnum.MovieCacheTag));
+});
+
+
 builder.Services.AddControllers();
 
 
@@ -90,8 +102,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseCors(); // put this before response caching
-app.UseResponseCaching();
+//app.UseCors(); // put this before caching
+//app.UseResponseCaching();
+app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
