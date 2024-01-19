@@ -1,4 +1,4 @@
-﻿namespace Movies.Api.Sdk.Consumer;
+﻿namespace Movies.Api.Sdk;
 
 public static class ApiEndpoints
 {
