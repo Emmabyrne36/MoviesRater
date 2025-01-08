@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Api.Auth;
+using Movies.Api.Endpoints;
 using Movies.Api.Enums;
 using Movies.Api.Health;
 using Movies.Api.Mapping;
@@ -38,7 +39,7 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy(AuthConstants.AdminUserPolicyName, 
+    x.AddPolicy(AuthConstants.AdminUserPolicyName,
         policyBuilder => policyBuilder.RequireClaim(AuthConstants.AdminUserClaimName, "true"));
 
     x.AddPolicy(AuthConstants.TrustedMemberPolicyName,
@@ -53,7 +54,9 @@ builder.Services.AddApiVersioning(x =>
     x.AssumeDefaultVersionWhenUnspecified = true;
     x.ReportApiVersions = true;
     x.ApiVersionReader = new MediaTypeApiVersionReader("api-version");
-}).AddMvc().AddApiExplorer();
+}).AddApiExplorer();
+
+builder.Services.AddEndpointsApiExplorer();
 
 //builder.Services.AddResponseCaching();
 builder.Services.AddOutputCache(x =>
@@ -67,8 +70,7 @@ builder.Services.AddOutputCache(x =>
 });
 
 
-builder.Services.AddControllers();
-
+// builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.HealthCheck);
@@ -81,6 +83,8 @@ builder.Services.AddDatabase(config["Database:ConnectionString"]!);
 
 
 var app = builder.Build();
+
+app.CreateApiVersionSet();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -108,7 +112,8 @@ app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
-app.MapControllers();
+//app.MapControllers();
+app.MapApiEndpoints();
 
 var dbInitialiser = app.Services.GetRequiredService<DbInitialiser>();
 await dbInitialiser.Initialise();
